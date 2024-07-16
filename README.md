@@ -1,135 +1,25 @@
 # logger
 
-Convenience wrapper for [zerolog](https://github.com/rs/zerolog) and [zwrap](https://github.com/yunginnanet/zwrap).
+[![Go Reference](https://pkg.go.dev/badge/git.tcp.direct/kayos/logger.svg)](https://pkg.go.dev/git.tcp.direct/kayos/logger)
 
-`import "git.tcp.direct/kayos/logger"`
+Convenience wrapper for [zerolog](https://github.com/rs/zerolog) + [zwrap](https://github.com/yunginnanet/zwrap) along with logfile helper utilities.
 
----
+## Basic Usage
 
-```go
-const MaximumSyncErrors = 10000
-```
+```golang
+package logger
 
-#### func  CreateDatedLogFile
+import (
+	"git.tcp.direct/kayos/logger"
+)
 
-```go
-func CreateDatedLogFile(directory, prefix string) (*os.File, error)
-```
+func ExampleNewLogger() {
+	// "kayos_logger_example-1721120070.log" will be created in the current directory
+	f, _ := CreateDatedLogFile("./", "kayos_logger_example")
 
-#### func  CreateDatedLogFileCtx
-
-```go
-func CreateDatedLogFileCtx(ctx context.Context, directory, prefix string) (*os.File, error)
-```
-
-#### func  CreateDatedLogFileFormatted
-
-```go
-func CreateDatedLogFileFormatted(directory, prefix string, format string) (*os.File, error)
-```
-
-#### func  CreateDatedLogFileFormattedCtx
-
-```go
-func CreateDatedLogFileFormattedCtx(ctx context.Context, directory, prefix string, format string) (*os.File, error)
-```
-
-#### func  DisableSyncErrorAccounting
-
-```go
-func DisableSyncErrorAccounting()
-```
-DisableSyncErrorAccounting disables storing and panicking upon exceeding the
-maximum sync error constant with regard to log files created with
-[CreateDatedLogfile] and managed by [StartPeriodicSync]. By default, this
-behavior is enabled.
-
-#### func  EnableSyncErrorAccounting
-
-```go
-func EnableSyncErrorAccounting()
-```
-EnableSyncErrorAccounting enables storing and panicking upon exceeding the
-maximum sync error constant with regard to log files created with
-[CreateDatedLogfile] and managed by [StartPeriodicSync]. By default, this
-behavior is enabled.
-
-#### func  StartPeriodicSync
-
-```go
-func StartPeriodicSync(ctx context.Context, f *os.File, dur time.Duration)
-```
-
-#### type Log
-
-```go
-type Log struct {
+	log := NewLogger(f)         // omit 'f' to only log to console
+	log.C().SetPrefix(f.Name()) // will apply to both [Z] and [C] calls
+	log.Z().Info().Msg("hello") // zerolog syntax
+	log.C().Info("world")       // stdlib "log" syntax
 }
 ```
-
-
-#### func  Global
-
-```go
-func Global() *Log
-```
-Global acquires the assigned global logger.
-
-IMPORTANT: you MUST make your instance of [Log] globally accecible by calling
-[WithGlobalPackageAccess].
-
-#### func  NewLogger
-
-```go
-func NewLogger(writers ...io.Writer) *Log
-```
-NewLogger creates a logger that writes to the given writers, as well as pretty
-prints to stdout.
-
-#### func  NewLoggerNoColor
-
-```go
-func NewLoggerNoColor(writers ...io.Writer) *Log
-```
-
-#### func  NewQuietLogger
-
-```go
-func NewQuietLogger(writers ...io.Writer) *Log
-```
-NewQuietLogger creates a logger that writes to the given writers with no console
-writer added.
-
-#### func (*Log) AddWriter
-
-```go
-func (l *Log) AddWriter(w io.Writer)
-```
-AddWriter adds a writer to the logger.
-
-Note: this may have unintended consequences if certain [zwrap.Logger]
-configuration values have been set via [Log.C]. That said, the [zwrap.Logger]
-prefix value will be preserved.
-
-#### func (*Log) C
-
-```go
-func (l *Log) C() zwrap.ZWrapLogger
-```
-C returns a [zwrap.ZWrapLogger] which is a highly compattible interface to fit
-many other log intrefaces.
-
-#### func (*Log) WithGlobalPackageAccess
-
-```go
-func (l *Log) WithGlobalPackageAccess()
-```
-
-#### func (*Log) Z
-
-```go
-func (l *Log) Z() *zerolog.Logger
-```
-Z rerturns a pointer to the underlying [zerolog.Logger].
-
----
