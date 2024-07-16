@@ -1,6 +1,6 @@
 module git.tcp.direct/kayos/logger
 
-go 1.22.4
+go 1.20
 
 require (
 	git.tcp.direct/kayos/zwrap v0.6.4
