@@ -2,7 +2,7 @@
 
 [![Go Reference](https://pkg.go.dev/badge/git.tcp.direct/kayos/logger.svg)](https://pkg.go.dev/git.tcp.direct/kayos/logger)
 
-Convenience wrapper for [zerolog](https://github.com/rs/zerolog) + [zwrap](https://github.com/yunginnanet/zwrap) along with logfile helper utilities.
+Convenience wrapper for [zerolog](https://github.com/rs/zerolog) + [zwrap](https://github.com/yunginnanet/zwrap) along with log file helper utilities.
 
 ## Basic Usage
 
