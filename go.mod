@@ -1,4 +1,4 @@
-module git.tcp.direct/kayos/logger
+module github.com/yunginnanet/logger
 
 go 1.20
 
