@@ -101,10 +101,11 @@ func (l *Log) Z() *zerolog.Logger {
 	return ll
 }
 
-func (l *Log) WithGlobalPackageAccess() {
+func (l *Log) WithGlobalPackageAccess() *Log {
 	globalMu.Lock()
 	globalLogger = l
 	globalMu.Unlock()
+	return l
 }
 
 // Global acquires the assigned global logger.
