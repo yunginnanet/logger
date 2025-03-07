@@ -11,9 +11,9 @@ import (
 	"time"
 )
 
-func TestNewLogger(t *testing.T) {
+func TestNew(t *testing.T) {
 	t.Run("native file", func(t *testing.T) {
-		log := NewLogger()
+		log := New()
 		log.C().SetPrefix(t.Name())
 		log.C().Info("yeet")
 		log.Z().Info().Msg("yeet")
@@ -73,7 +73,7 @@ func TestNewLogger(t *testing.T) {
 	})
 
 	t.Run("assisted file", func(t *testing.T) {
-		log := NewLogger()
+		log := New()
 		log.C().SetPrefix(t.Name())
 
 		tmpDir := t.TempDir()
@@ -144,7 +144,7 @@ func TestNewLogger(t *testing.T) {
 			})
 		}()
 
-		log := NewLogger(f)
+		log := New(f)
 		log.C().SetPrefix(t.Name())
 		log.C().Info("dated yeet")
 		log.Z().Info().Msg("dated yeet")
@@ -175,7 +175,7 @@ func TestNewLogger(t *testing.T) {
 	})
 
 	t.Run("test global logger", func(t *testing.T) {
-		log := NewLogger()
+		log := New()
 		log.C().SetPrefix(t.Name())
 		log.Z().Info().Msg("we out here")
 		if Global() != nil {

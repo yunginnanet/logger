@@ -27,8 +27,8 @@ func NewQuietLogger(writers ...io.Writer) *Log {
 	return newLogger(writers...)
 }
 
-// NewLogger creates a logger that writes to the given writers, as well as pretty prints to stdout.
-func NewLogger(writers ...io.Writer) *Log {
+// New creates a logger that writes to the given writers, as well as pretty prints to stdout.
+func New(writers ...io.Writer) *Log {
 	zcl := &zerolog.ConsoleWriter{
 		Out:         os.Stdout,
 		NoColor:     false,
@@ -40,7 +40,7 @@ func NewLogger(writers ...io.Writer) *Log {
 	return newLogger(newW...)
 }
 
-func NewLoggerNoColor(writers ...io.Writer) *Log {
+func NewNoColor(writers ...io.Writer) *Log {
 	zcl := &zerolog.ConsoleWriter{
 		Out:         os.Stdout,
 		NoColor:     false,
@@ -115,5 +115,6 @@ func Global() *Log {
 	globalMu.RLock()
 	l := globalLogger
 	globalMu.RUnlock()
+
 	return l
 }
